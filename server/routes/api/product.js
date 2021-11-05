@@ -409,7 +409,7 @@ router.post(
 
 			//   const s3Upload = await s3bucket.upload(params).promise();
 
-			imageUrl = image.buffer;
+			// imageUrl = image.buffer;
 			//   imageKey = s3Upload.key;
 			// }
 
