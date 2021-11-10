@@ -97,7 +97,7 @@ const OrderItems = (props) => {
 														<h4 className='d-block item-name one-line-ellipsis'>{item.product?.name}</h4>
 													</Link>
 													<div className='d-flex align-items-center justify-content-between'>
-														<span className='price'>{item.purchasePrice || item.product.price}.000đ</span>
+														<span className='price'>{item.purchasePrice || item.product.price}đ</span>
 													</div>
 												</>
 											) : (
