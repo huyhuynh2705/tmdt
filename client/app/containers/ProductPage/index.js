@@ -92,7 +92,7 @@ class ProductPage extends React.PureComponent {
 												</p>
 											)}
 											<p className='item-desc'>{product.description}</p>
-											<p className='price'>{product.price}.000đ</p>
+											<p className='price'>{product.price}đ</p>
 										</div>
 										<div className='item-customize'>
 											<Input

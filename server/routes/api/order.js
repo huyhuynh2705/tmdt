@@ -11,18 +11,27 @@ const role = require('../../middleware/role');
 const mailgun = require('../../services/mailgun');
 const store = require('../../helpers/store');
 
+router.post('/paied', auth, async (req, res) => {
+	console.log(req.body);
+});
+
 router.post('/paying', auth, async (req, res) => {
+	const total = req.body.total;
+	const cartId = req.body.cartId;
+	console.log('cartId: ', cartId);
 	try {
 		const partnerCode = 'MOMO';
+		const partnerName = 'Test';
 		const accessKey = 'F8BBA842ECF85';
 		const secretkey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
-		const requestId = partnerCode + new Date().getTime();
+		// const requestId = partnerCode + new Date().getTime();
+		const requestId = partnerCode + cartId + '-' + new Date().getTime();
 		const orderId = requestId;
 		const orderInfo = 'pay with MoMo';
-		const redirectUrl = 'https://momo.vn/return';
-		const ipnUrl = 'https://callback.url/notify';
+		const redirectUrl = `http://localhost:5000/order/paid`;
+		const ipnUrl = 'http://localhost:5000/order/paid';
 		// const ipnUrl = redirectUrl = "https://webhook.site/454e7b77-f177-4ece-8236-ddf1c26ba7f8";
-		const amount = '50000';
+		const amount = total;
 		const requestType = 'captureWallet';
 		const extraData = ''; //pass empty value if your merchant does not have stores
 
@@ -49,6 +58,7 @@ router.post('/paying', auth, async (req, res) => {
 			requestId +
 			'&requestType=' +
 			requestType;
+		'&partnerName=' + partnerName;
 		//puts raw signature
 		console.log('--------------------RAW SIGNATURE----------------');
 		console.log(rawSignature);
@@ -91,14 +101,21 @@ router.post('/paying', auth, async (req, res) => {
 			console.log(`Headers: ${JSON.stringify(response.headers)}`);
 			response.setEncoding('utf8');
 			response.on('data', (body) => {
-				console.log('Body: ');
-				console.log(body);
-				console.log('payUrl: ');
-				console.log(JSON.parse(body).payUrl);
+				const payUrlIndex = body.indexOf('"payUrl":"') + 10;
+				const payUrlLastIndex = body.indexOf('","deeplink"');
+				const payUrl = body.slice(payUrlIndex, payUrlLastIndex);
 				res.status(200).json({
 					success: true,
-					message: JSON.parse(body).payUrl,
+					message: payUrl,
 				});
+				// if (JSON.parse(body).payUrl) {
+				// 	console.log('payUrl: ');
+				// 	console.log(JSON.parse(body)?.payUrl);
+				// 	res.status(200).json({
+				// 		success: true,
+				// 		message: JSON.parse(body)?.payUrl,
+				// 	});
+				// }
 			});
 			response.on('end', () => {
 				console.log('No more data in responseponse.');

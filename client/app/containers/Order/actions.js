@@ -182,8 +182,8 @@ export const payOrder = () => {
 					total,
 				});
 				console.log(response);
-				open(response.data.message, '_blank');
-				dispatch(addOrder());
+				open(response.data.message, '_self');
+				// dispatch(addOrder());
 			}
 		} catch (error) {
 			handleError(error, dispatch);
