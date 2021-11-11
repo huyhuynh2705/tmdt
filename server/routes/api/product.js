@@ -365,7 +365,6 @@ router.post(
 			const isActive = req.body.isActive;
 			const brand = req.body.brand;
 			const image = req.file;
-			console.log(image);
 
 			if (!sku) {
 				return res.status(400).json({ error: 'You must enter sku.' });
@@ -391,7 +390,7 @@ router.post(
 
 			let imageUrl = '';
 			let imageKey = '';
-			imageUrl = image.buffer;
+			imageUrl = image.buffer.toString('base64');
 
 			// if (image) {
 			// 	const s3bucket = new AWS.S3({

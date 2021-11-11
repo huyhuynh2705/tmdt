@@ -218,86 +218,95 @@ export const fetchProductsSelect = () => {
 
 // add product api
 export const addProduct = () => {
-	return async (dispatch, getState) => {
-		try {
-			const rules = {
-				sku: 'required',
-				name: 'required',
-				description: 'required|max:200',
-				quantity: 'required|numeric',
-				price: 'required|numeric',
-				taxable: 'required',
-				image: 'required',
-			};
+  return async (dispatch, getState) => {
+    try {
+      const rules = {
+        sku: 'required',
+        name: 'required',
+        description: 'required|max:200',
+        quantity: 'required|numeric',
+        price: 'required|numeric',
+        taxable: 'required',
+        image: 'required'
+      };
 
-			const product = getState().product.productFormData;
-			const user = getState().account.user;
-			const brands = getState().brand.brandsSelect;
+      const product = getState().product.productFormData;
+      const user = getState().account.user;
+      const brands = getState().brand.brandsSelect;
 
-			const brand = unformatSelectOptions([product.brand]);
+      const brand = unformatSelectOptions([product.brand]);
 
-			const newProduct = {
-				sku: product.sku,
-				name: product.name,
-				description: product.description,
-				price: product.price,
-				quantity: product.quantity,
-				image: product.image,
-				isActive: product.isActive,
-				taxable: product.taxable.value,
-				brand: user.role !== 'ROLE_MERCHANT' ? (brand != 0 ? brand : null) : brands[1].value,
-			};
+      console.log(product.image);
 
-			const { isValid, errors } = allFieldsValidation(newProduct, rules, {
-				'required.sku': 'Sku is required.',
-				'required.name': 'Name is required.',
-				'required.description': 'Description is required.',
-				'max.description': 'Description may not be greater than 200 characters.',
-				'required.quantity': 'Quantity is required.',
-				'required.price': 'Price is required.',
-				'required.taxable': 'Taxable is required.',
-				'required.image': 'Please upload files with jpg, jpeg, png format.',
-			});
 
-			if (!isValid) {
-				return dispatch({ type: SET_PRODUCT_FORM_ERRORS, payload: errors });
-			}
-			const formData = new FormData();
-			if (newProduct.image) {
-				for (const key in newProduct) {
-					if (newProduct.hasOwnProperty(key)) {
-						if (key === 'brand' && newProduct[key] === null) {
-							continue;
-						} else {
-							formData.set(key, newProduct[key]);
-						}
-					}
-				}
-			}
+      const newProduct = {
+        sku: product.sku,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        quantity: product.quantity,
+        image: product.image,
+        isActive: product.isActive,
+        taxable: product.taxable.value,
+        brand:
+          user.role !== 'ROLE_MERCHANT'
+            ? brand != 0
+              ? brand
+              : null
+            : brands[1].value
+      };
 
-			const response = await axios.post(`/api/product/add`, formData, {
-				headers: { 'Content-Type': 'multipart/form-data' },
-			});
+      const { isValid, errors } = allFieldsValidation(newProduct, rules, {
+        'required.sku': 'Sku is required.',
+        'required.name': 'Name is required.',
+        'required.description': 'Description is required.',
+        'max.description':
+          'Description may not be greater than 200 characters.',
+        'required.quantity': 'Quantity is required.',
+        'required.price': 'Price is required.',
+        'required.taxable': 'Taxable is required.',
+        'required.image': 'Please upload files with jpg, jpeg, png format.'
+      });
 
-			const successfulOptions = {
-				title: `${response.data.message}`,
-				position: 'tr',
-				autoDismiss: 1,
-			};
+      if (!isValid) {
+        return dispatch({ type: SET_PRODUCT_FORM_ERRORS, payload: errors });
+      }
+      const formData = new FormData();
+      if (newProduct.image) {
+        for (const key in newProduct) {
+          if (newProduct.hasOwnProperty(key)) {
+            if (key === 'brand' && newProduct[key] === null) {
+              continue;
+            } else {
+              formData.set(key, newProduct[key]);
+            }
+          }
+        }
+      }
 
-			if (response.data.success === true) {
-				dispatch(success(successfulOptions));
-				dispatch({
-					type: ADD_PRODUCT,
-					payload: response.data.product,
-				});
-				dispatch(resetProduct());
-				dispatch(goBack());
-			}
-		} catch (error) {
-			handleError(error, dispatch);
-		}
-	};
+      const response = await axios.post(`/api/product/add`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+
+      const successfulOptions = {
+        title: `${response.data.message}`,
+        position: 'tr',
+        autoDismiss: 1
+      };
+
+      if (response.data.success === true) {
+        dispatch(success(successfulOptions));
+        dispatch({
+          type: ADD_PRODUCT,
+          payload: response.data.product
+        });
+        dispatch(resetProduct());
+        dispatch(goBack());
+      }
+    } catch (error) {
+      handleError(error, dispatch);
+    }
+  };
 };
 
 // update Product api

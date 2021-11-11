@@ -125,7 +125,11 @@ const AddProduct = (props) => {
 						/>
 					</Col>
 					<Col xs='12' md='12'>
-						{/* <FileBase type='file' multiple={false} onDone={({ base64 }) => productChange('image', base64)} /> */}
+						{/* <FileBase
+							type='file'
+							multiple={false}
+							onDone={({ base64 }) => productChange('image', base64)}
+						/> */}
 
 						<Input
 							type={'file'}
