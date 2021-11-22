@@ -29,7 +29,7 @@ const CartList = (props) => {
 									<div className='d-flex align-items-center'>
 										<img
 											className='item-image mr-2'
-											src={`${item.imageUrl ? item.imageUrl : '/images/placeholder-image.png'}`}
+											src={`${item.imageUrl ?"data:image/jpeg;base64," +  item.imageUrl : '/images/placeholder-image.png'}`}
 										/>
 
 										<Link
