@@ -9,7 +9,6 @@
     { "to": "/users", "name": "Users" },
     { "to": "/merchants", "name": "Merchants" },
     { "to": "/orders", "name": "Orders" },
-    { "to": "/review", "name": "Reviews" },
     { "to": "/wishlist", "name": "WishList" },
     { "to": "/support", "name": "Support" }
   ],
