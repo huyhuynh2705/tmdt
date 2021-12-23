@@ -16,7 +16,7 @@ router.post('/add', auth, async (req, res) => {
 
     const cart = new Cart({
       user,
-      products
+      products,
     });
 
     const cartDoc = await cart.save();
@@ -25,11 +25,11 @@ router.post('/add', auth, async (req, res) => {
 
     res.status(200).json({
       success: true,
-      cartId: cartDoc.id
+      cartId: cartDoc.id,
     });
   } catch (error) {
     res.status(400).json({
-      error: 'Your request could not be processed. Please try again.'
+      error: 'Your request could not be processed. Please try again.',
     });
   }
 });
@@ -39,12 +39,13 @@ router.delete('/delete/:cartId', auth, async (req, res) => {
     await Cart.deleteOne({ _id: req.params.cartId });
 
     res.status(200).json({
-      success: true
+      success: true,
     });
   } catch (error) {
-    res.status(400).json({
-      error: 'Your request could not be processed. Please try again.'
-    });
+    console.log(error);
+    // res.status(400).json({
+    //   error: 'Your request could not be processed. Please try again.'
+    // });
   }
 });
 
@@ -56,12 +57,13 @@ router.post('/add/:cartId', auth, async (req, res) => {
     await Cart.updateOne(query, { $push: { products: product } }).exec();
 
     res.status(200).json({
-      success: true
+      success: true,
     });
   } catch (error) {
-    res.status(400).json({
-      error: 'Your request could not be processed. Please try again.'
-    });
+    console.log(error);
+    // res.status(400).json({
+    //   error: 'Your request could not be processed. Please try again.'
+    // });
   }
 });
 
@@ -73,22 +75,23 @@ router.delete('/delete/:cartId/:productId', auth, async (req, res) => {
     await Cart.updateOne(query, { $pull: { products: product } }).exec();
 
     res.status(200).json({
-      success: true
+      success: true,
     });
   } catch (error) {
-    res.status(400).json({
-      error: 'Your request could not be processed. Please try again.'
-    });
+    console.log(error);
+    // res.status(400).json({
+    //   error: 'Your request could not be processed. Please try again.'
+    // });
   }
 });
 
-const decreaseQuantity = products => {
-  let bulkOptions = products.map(item => {
+const decreaseQuantity = (products) => {
+  let bulkOptions = products.map((item) => {
     return {
       updateOne: {
         filter: { _id: item.product },
-        update: { $inc: { quantity: -item.quantity } }
-      }
+        update: { $inc: { quantity: -item.quantity } },
+      },
     };
   });
 
