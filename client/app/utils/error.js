@@ -13,7 +13,7 @@ const handleError = (err, dispatch, title = '') => {
     title: `${title}`,
     message: ``,
     position: 'tr',
-    autoDismiss: 1
+    autoDismiss: 1,
   };
 
   if (err.response) {

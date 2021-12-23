@@ -177,13 +177,13 @@ export const payOrder = () => {
       const total = getState().cart.cartTotal;
 
       if (cartId) {
-        // const response = await axios.post(`/api/order/paying`, {
-        //   cartId,
-        //   total,
-        // });
-        // console.log(response);
-        // open(response.data.message, '_self');
-        dispatch(addOrder());
+        const response = await axios.post(`/api/order/paying`, {
+          cartId,
+          total,
+        });
+        console.log(response);
+        open(response.data.message, '_self');
+        // dispatch(addOrder());
       }
     } catch (error) {
       handleError(error, dispatch);
@@ -205,7 +205,8 @@ export const addOrder = () => {
         dispatch(clearCart());
       }
     } catch (error) {
-      handleError(error, dispatch);
+      // handleError(error, dispatch);
+      console.log(error);
     }
   };
 };
