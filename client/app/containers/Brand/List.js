@@ -26,7 +26,7 @@ class List extends React.PureComponent {
     return (
       <>
         <SubPage
-          title={user.role === 'ROLE_ADMIN' ? 'Brands' : 'Brand'}
+          title={user.role === 'ROLE_ADMIN' ? 'Categories' : 'Category'}
           actionTitle={user.role === 'ROLE_ADMIN' && 'Add'}
           handleAction={() => history.push('/dashboard/brand/add')}
         >
@@ -35,7 +35,7 @@ class List extends React.PureComponent {
           ) : brands.length > 0 ? (
             <BrandList brands={brands} user={user} />
           ) : (
-            <NotFound message='no brands found.' />
+            <NotFound message="no brands found." />
           )}
         </SubPage>
       </>
@@ -43,11 +43,11 @@ class List extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     brands: state.brand.brands,
     isLoading: state.brand.isLoading,
-    user: state.account.user
+    user: state.account.user,
   };
 };
 
