@@ -10,6 +10,7 @@ import { success } from 'react-notification-system-redux';
 import NodeRSA from 'node-rsa';
 import {
   FETCH_ORDERS,
+  FETCH_ALL_ORDERS,
   FETCH_SEARCHED_ORDERS,
   FETCH_ORDER,
   UPDATE_ORDER_STATUS,
@@ -55,11 +56,33 @@ export const fetchOrders = () => {
     try {
       dispatch(setOrderLoading(true));
 
-      const response = await axios.get(`/api/order`);
+      const response = await axios.get(`/api/order/`);
 
       if (response.data.orders) {
         dispatch({
           type: FETCH_ORDERS,
+          payload: response.data.orders,
+        });
+      }
+    } catch (error) {
+      dispatch(clearOrders());
+      handleError(error, dispatch);
+    } finally {
+      dispatch(setOrderLoading(false));
+    }
+  };
+};
+
+export const fetchAllOrders = () => {
+  return async (dispatch, getState) => {
+    try {
+      dispatch(setOrderLoading(true));
+
+      const response = await axios.get(`/api/order/all`);
+
+      if (response.data.orders) {
+        dispatch({
+          type: FETCH_ALL_ORDERS,
           payload: response.data.orders,
         });
       }
@@ -183,8 +206,8 @@ export const payOrder = () => {
         });
         console.log(response);
         open(response.data.message, '_self');
-        // dispatch(addOrder());
       }
+      // dispatch(addOrder());
     } catch (error) {
       handleError(error, dispatch);
     }

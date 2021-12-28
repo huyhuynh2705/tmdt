@@ -16,26 +16,30 @@ import SubPage from '../../components/Manager/SubPage';
 import NotFound from '../../components/Common/NotFound';
 
 class Users extends React.PureComponent {
+  componentDidMount() {
+    this.props.fetchUsers();
+  }
+
   render() {
     const { users, searchUsers } = this.props;
 
     return (
-      <div className='users-dashboard'>
-        <SubPage title='Users' />
+      <div className="users-dashboard">
+        <SubPage title="Users" />
         <UserSearch onSearchSubmit={searchUsers} />
         {users.length > 0 ? (
           <UserList users={users} />
         ) : (
-          <NotFound message='No Users Found!' />
+          <NotFound message="No Users Found!" />
         )}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    users: state.users.users
+    users: state.users.users,
   };
 };
 

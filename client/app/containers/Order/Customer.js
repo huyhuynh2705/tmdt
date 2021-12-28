@@ -18,17 +18,18 @@ import LoadingIndicator from '../../components/Common/LoadingIndicator';
 
 class Customer extends React.PureComponent {
   componentDidMount() {
-    this.props.fetchOrders();
+    this.props.fetchAllOrders();
   }
 
   render() {
-    const { history, user, orders, isLoading, searchOrders } = this.props;
+    const { history, user, orders, allOrders, isLoading, searchOrders } =
+      this.props;
 
     return (
-      <div className='order-dashboard'>
+      <div className="order-dashboard">
         <SubPage
-          title='Customer Orders'
-          actionTitle='My Orders'
+          title="Customer Orders"
+          actionTitle="My Orders"
           handleAction={() =>
             user.role === 'ROLE_ADMIN' && history.push('/dashboard/orders')
           }
@@ -36,10 +37,10 @@ class Customer extends React.PureComponent {
           <OrderSearch onSearchSubmit={searchOrders} />
           {isLoading ? (
             <LoadingIndicator inline />
-          ) : orders.length > 0 ? (
-            <OrderList orders={orders} />
+          ) : allOrders.length > 0 ? (
+            <OrderList orders={allOrders} />
           ) : (
-            <NotFound message='No orders found.' />
+            <NotFound message="No orders found." />
           )}
         </SubPage>
       </div>
@@ -47,12 +48,13 @@ class Customer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     user: state.account.user,
     orders: state.order.searchedOrders,
+    allOrders: state.order.allOrders,
     isLoading: state.order.isLoading,
-    isOrderAddOpen: state.order.isOrderAddOpen
+    isOrderAddOpen: state.order.isOrderAddOpen,
   };
 };
 
