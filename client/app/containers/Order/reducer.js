@@ -10,21 +10,23 @@ import {
   FETCH_ORDER,
   UPDATE_ORDER_STATUS,
   SET_ORDERS_LOADING,
-  CLEAR_ORDERS
+  CLEAR_ORDERS,
+  FETCH_ALL_ORDERS,
 } from './constants';
 
 const initialState = {
   orders: [],
   searchedOrders: [],
+  allOrders: [],
   order: {
     _id: '',
     cartId: '',
     products: [],
     totalTax: 0,
     total: 0,
-    status: ''
+    status: '',
   },
-  isLoading: false
+  isLoading: false,
 };
 
 const orderReducer = (state = initialState, action) => {
@@ -32,21 +34,26 @@ const orderReducer = (state = initialState, action) => {
     case FETCH_ORDERS:
       return {
         ...state,
-        orders: action.payload
+        orders: action.payload,
+      };
+    case FETCH_ALL_ORDERS:
+      return {
+        ...state,
+        allOrders: action.payload,
       };
     case FETCH_SEARCHED_ORDERS:
       return {
         ...state,
-        searchedOrders: action.payload
+        searchedOrders: action.payload,
       };
     case FETCH_ORDER:
       return {
         ...state,
-        order: action.payload
+        order: action.payload,
       };
     case UPDATE_ORDER_STATUS:
       const itemIndex = state.order.products.findIndex(
-        item => item._id === action.payload.itemId
+        (item) => item._id === action.payload.itemId
       );
 
       const newProducts = [...state.order.products];
@@ -55,18 +62,18 @@ const orderReducer = (state = initialState, action) => {
         ...state,
         order: {
           ...state.order,
-          products: newProducts
-        }
+          products: newProducts,
+        },
       };
     case SET_ORDERS_LOADING:
       return {
         ...state,
-        isLoading: action.payload
+        isLoading: action.payload,
       };
     case CLEAR_ORDERS:
       return {
         ...state,
-        orders: []
+        orders: [],
       };
     default:
       return state;

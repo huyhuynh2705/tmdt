@@ -12,19 +12,19 @@ import Checkbox from '../../Common/Checkbox';
 import Input from '../../Common/Input';
 import Button from '../../Common/Button';
 
-const AddAddress = props => {
+const AddAddress = (props) => {
   const { addressFormData, formErrors, addressChange, addAddress } = props;
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     addAddress();
   };
 
   return (
-    <div className='add-address'>
+    <div className="add-address">
       <form onSubmit={handleSubmit} noValidate>
         <Row>
-          <Col xs='12' md='12'>
+          <Col xs="12" md="12">
             <Input
               type={'text'}
               error={formErrors['address']}
@@ -37,33 +37,33 @@ const AddAddress = props => {
               }}
             />
           </Col>
-          <Col xs='12' md='12'>
+          <Col xs="12" md="12">
             <Input
               type={'text'}
               error={formErrors['city']}
-              label={'City'}
+              label={'Town/District'}
               name={'city'}
-              placeholder={'City'}
+              placeholder={'Town/District'}
               value={addressFormData.city}
               onInputChange={(name, value) => {
                 addressChange(name, value);
               }}
             />
           </Col>
-          <Col xs='12' lg='6'>
+          <Col xs="12" lg="6">
             <Input
               type={'text'}
               error={formErrors['state']}
-              label={'State'}
+              label={'Province/City'}
               name={'state'}
-              placeholder={'State'}
+              placeholder={'Province/City'}
               value={addressFormData.state}
               onInputChange={(name, value) => {
                 addressChange(name, value);
               }}
             />
           </Col>
-          <Col xs='12' lg='6'>
+          <Col xs="12" lg="6">
             <Input
               type={'text'}
               error={formErrors['country']}
@@ -76,20 +76,23 @@ const AddAddress = props => {
               }}
             />
           </Col>
-          <Col xs='12' lg='6'>
-            <Input
-              type={'text'}
-              error={formErrors['zipCode']}
-              label={'Zipcode'}
-              name={'zipCode'}
-              placeholder={'Please Enter Your Zipcode'}
-              value={addressFormData.zipCode}
-              onInputChange={(name, value) => {
-                addressChange(name, value);
-              }}
-            />
-          </Col>
-          <Col xs='12' md='12'>
+          <div style={{ display: 'none' }}>
+            <Col xs="12" lg="6">
+              <Input
+                type={'text'}
+                error={formErrors['zipCode']}
+                label={'Zipcode'}
+                name={'zipCode'}
+                placeholder={'Please Enter Your Zipcode'}
+                // value={addressFormData.zipCode}
+                value={'123456789'}
+                onInputChange={(name, value) => {
+                  addressChange(name, value);
+                }}
+              />
+            </Col>
+          </div>
+          <Col xs="12" md="12">
             <Checkbox
               id={'default'}
               label={'As the Default'}
@@ -102,8 +105,8 @@ const AddAddress = props => {
           </Col>
         </Row>
         <hr />
-        <div className='add-address-actions'>
-          <Button type='submit' text='Add Address' />
+        <div className="add-address-actions">
+          <Button type="submit" text="Add Address" />
         </div>
       </form>
     </div>

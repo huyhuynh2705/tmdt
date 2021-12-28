@@ -10,14 +10,17 @@ import { FETCH_USERS } from './constants';
 
 import handleError from '../../utils/error';
 
-export const fetchUsers = filter => {
+export const fetchUsers = (filter) => {
   return async (dispatch, getState) => {
     try {
       const response = await axios.get(`/api/user/search`, {
-        params: {
-          search: filter.value
-        }
+        params: {},
       });
+      // const response = await axios.get(`/api/user/search`, {
+      //   params: {
+      //     search: filter.value,
+      //   },
+      // });
 
       dispatch({ type: FETCH_USERS, payload: response.data.users });
     } catch (error) {
@@ -26,7 +29,7 @@ export const fetchUsers = filter => {
   };
 };
 
-export const searchUsers = filter => {
+export const searchUsers = (filter) => {
   return async (dispatch, getState) => {
     try {
       dispatch(fetchUsers(filter));

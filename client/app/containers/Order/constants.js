@@ -5,6 +5,7 @@
  */
 
 export const FETCH_ORDERS = 'src/Orders/FETCH_ORDERS';
+export const FETCH_ALL_ORDERS = 'src/Orders/FETCH_ALL_ORDERS';
 export const FETCH_SEARCHED_ORDERS = 'src/Orders/FETCH_SEARCHED_ORDERS';
 export const FETCH_ORDER = 'src/Order/FETCH_ORDER';
 export const UPDATE_ORDER_STATUS = 'src/Order/UPDATE_ORDER_STATUS';

@@ -20,7 +20,7 @@ import {
   REMOVE_ADDRESS,
   SET_ADDRESS_LOADING,
   ADDRESS_SELECT,
-  FETCH_ADDRESSES_SELECT
+  FETCH_ADDRESSES_SELECT,
 } from './constants';
 import handleError from '../../utils/error';
 import { allFieldsValidation } from '../../utils/validation';
@@ -31,7 +31,7 @@ export const addressChange = (name, value) => {
 
   return {
     type: ADDRESS_CHANGE,
-    payload: formData
+    payload: formData,
   };
 };
 
@@ -41,21 +41,21 @@ export const addressEditChange = (name, value) => {
 
   return {
     type: ADDRESS_EDIT_CHANGE,
-    payload: formData
+    payload: formData,
   };
 };
 
-export const handleAddressSelect = value => {
+export const handleAddressSelect = (value) => {
   return {
     type: ADDRESS_SELECT,
-    payload: value
+    payload: value,
   };
 };
 
-export const setAddressLoading = value => {
+export const setAddressLoading = (value) => {
   return {
     type: SET_ADDRESS_LOADING,
-    payload: value
+    payload: value,
   };
 };
 
@@ -74,14 +74,14 @@ export const fetchAddresses = () => {
 };
 
 // fetch address api
-export const fetchAddress = addressId => {
+export const fetchAddress = (addressId) => {
   return async (dispatch, getState) => {
     try {
       const response = await axios.get(`/api/address/${addressId}`);
 
       dispatch({
         type: FETCH_ADDRESS,
-        payload: response.data.address
+        payload: response.data.address,
       });
     } catch (error) {
       handleError(error, dispatch);
@@ -97,7 +97,6 @@ export const addAddress = () => {
         city: 'required',
         state: 'required',
         country: 'required',
-        zipCode: 'required|min:5'
       };
 
       const newAddress = getState().address.addressFormData;
@@ -108,7 +107,7 @@ export const addAddress = () => {
         'required.city': 'City is required.',
         'required.state': 'State is required.',
         'required.country': 'Country is required.',
-        'required.zipCode': 'Zipcode is required.'
+        'required.zipCode': 'Zipcode is required.',
       });
 
       if (!isValid) {
@@ -117,7 +116,7 @@ export const addAddress = () => {
 
       const address = {
         isDefault,
-        ...newAddress
+        ...newAddress,
       };
 
       const response = await axios.post(`/api/address/add`, address);
@@ -125,14 +124,14 @@ export const addAddress = () => {
       const successfulOptions = {
         title: `${response.data.message}`,
         position: 'tr',
-        autoDismiss: 1
+        autoDismiss: 1,
       };
 
       if (response.data.success === true) {
         dispatch(success(successfulOptions));
         dispatch({
           type: ADD_ADDRESS,
-          payload: response.data.address
+          payload: response.data.address,
         });
         dispatch(goBack());
         dispatch({ type: RESET_ADDRESS });
@@ -152,7 +151,7 @@ export const updateAddress = () => {
         city: 'required',
         state: 'required',
         address: 'required',
-        zipCode: 'required'
+        zipCode: 'required',
       };
 
       const newAddress = getState().address.address;
@@ -162,13 +161,13 @@ export const updateAddress = () => {
         'required.city': 'City is required.',
         'required.state': 'State is required.',
         'required.country': 'Country is required.',
-        'required.zipCode': 'Zipcode is required.'
+        'required.zipCode': 'Zipcode is required.',
       });
 
       if (!isValid) {
         return dispatch({
           type: SET_ADDRESS_FORM_EDIT_ERRORS,
-          payload: errors
+          payload: errors,
         });
       }
 
@@ -180,7 +179,7 @@ export const updateAddress = () => {
       const successfulOptions = {
         title: `${response.data.message}`,
         position: 'tr',
-        autoDismiss: 1
+        autoDismiss: 1,
       };
 
       if (response.data.success === true) {
@@ -194,7 +193,7 @@ export const updateAddress = () => {
 };
 
 // delete address api
-export const deleteAddress = id => {
+export const deleteAddress = (id) => {
   return async (dispatch, getState) => {
     try {
       const response = await axios.delete(`/api/address/delete/${id}`);
@@ -202,14 +201,14 @@ export const deleteAddress = id => {
       const successfulOptions = {
         title: `${response.data.message}`,
         position: 'tr',
-        autoDismiss: 1
+        autoDismiss: 1,
       };
 
       if (response.data.success === true) {
         dispatch(success(successfulOptions));
         dispatch({
           type: REMOVE_ADDRESS,
-          payload: id
+          payload: id,
         });
         dispatch(goBack());
       }
