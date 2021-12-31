@@ -6,6 +6,7 @@
     { "to": "/product", "name": "Products" },
     { "to": "/brand", "name": "Categories" },
     { "to": "/users", "name": "Users" },
+    { "to": "/wishlist", "name": "Wishlist" },
     { "to": "/orders", "name": "Orders" },
     { "to": "/support", "name": "Support" }
   ],
@@ -21,6 +22,7 @@
     { "to": "", "name": "Account Details" },
     { "to": "/security", "name": "Account Security" },
     { "to": "/address", "name": "Address" },
+    { "to": "/wishlist", "name": "Wishlist" },
     { "to": "/orders", "name": "Orders" },
     { "to": "/support", "name": "Support" }
   ]
