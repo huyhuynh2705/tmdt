@@ -37,6 +37,21 @@ export const placeOrder = () => {
   };
 };
 
+export const momoPay = () => {
+  return async (dispatch, getState) => {
+    const token = localStorage.getItem('token');
+
+    const cartItems = getState().cart.cartItems;
+
+    if (token && cartItems.length > 0) {
+      Promise.all([dispatch(getCartId())]).then(() => {
+        dispatch(payMomoOrder());
+      });
+    }
+    dispatch(toggleCart());
+  };
+};
+
 export const updateOrderStatus = (value) => {
   return {
     type: UPDATE_ORDER_STATUS,
@@ -193,7 +208,7 @@ export const updateOrderItemStatus = (itemId, status) => {
   };
 };
 
-export const payOrder = () => {
+export const payMomoOrder = () => {
   return async (dispatch, getState) => {
     try {
       const cartId = localStorage.getItem('cart_id');
@@ -213,6 +228,28 @@ export const payOrder = () => {
     }
   };
 };
+
+export const payOrder = () => {
+  return async (dispatch, getState) => {
+    try {
+      const cartId = localStorage.getItem('cart_id');
+      const total = getState().cart.cartTotal;
+
+      if (cartId) {
+        // const response = await axios.post(`/api/order/paying`, {
+        //   cartId,
+        //   total,
+        // });
+        // console.log(response);
+        // open(response.data.message, '_self');
+        dispatch(addOrder());
+      }
+    } catch (error) {
+      handleError(error, dispatch);
+    }
+  };
+};
+
 export const addOrder = () => {
   return async (dispatch, getState) => {
     try {
